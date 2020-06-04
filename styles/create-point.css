@@ -82,7 +82,7 @@
 
 #page-create-point form input,
 form select {
-  background-color: #f0f0f5;
+  background-color: var(--form-background);
   border: 0;
   padding: 16px 24px;
   font-size: 16px;
@@ -124,4 +124,64 @@ form select {
 
 #page-create-point form button:hover {
   background-color: var(--primary-color-hover);
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* GAP é usado para fazer a separação entre itens como uma margem */
+  gap: 16px;
+}
+
+.items-grid li {
+  background-color: #f5f5f5;
+  list-style: none;
+
+  border: 2px solid #f5f5f5;
+  border-radius: 8px;
+
+  height: 180px;
+
+  padding: 32px 24px 16px;
+  display: flex;
+  /* Ao usar o flex-direction: column mudamos o fluxo de cima pra baixo */
+  flex-direction: column;
+  align-items: center;
+
+  /* Ao usar o justify-content: space-between; os itens se alinha no topo
+     e na base porque o fluxo é vertical */
+  justify-content: space-between;
+  text-align: center;
+
+  cursor: pointer;
+}
+
+.items-grid li:hover {
+  background-color: rgba(52, 203, 121, 0.4);
+}
+
+.items-grid li span {
+  margin-top: 12px;
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  color: var(--title-color);
+}
+
+/* Quando o item .selected esta encostado ao elemento li ele vai aplicar
+   ao elementeo li com a classe selected se tiver spaco entre o li e o
+   .selected ele vai procurar uma classe .selected dentro de um elemento
+   li */
+.items-grid li.selected {
+  background-color: #e1faec;
+  border: 2px solid #34cb79;
+}
+
+/* Desliga os eventos de pointer no itens que estão na li para não ser
+   enviado ao EventList */
+.items-grid li img,
+.items-grid li span {
+  pointer-events: none;
 }

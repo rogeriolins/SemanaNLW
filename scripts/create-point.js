@@ -28,14 +28,65 @@ function getCitys(event) {
   stateInputName.value = event.target.options[indexOfSelectedState].text;
 
   const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${ufValue}/municipios`;
+  citySelect.innerHTML = "<option value=''>Selecione a cidade</option>";
+  citySelect.disabled = true;
+
   fetch(url)
     .then((res) => res.json())
     .then((citys) => {
       for (const city of citys) {
-        citySelect.innerHTML += `<option value="${city.id}">${city.nome}</option>`;
+        citySelect.innerHTML += `<option value="${city.nome}">${city.nome}</option>`;
       }
       citySelect.disabled = false;
     });
 }
 
 document.querySelector("select[name=uf]").addEventListener("change", getCitys);
+
+// Scripts para os itens de coleta
+
+/* Coleção de todos os elementos li em uma constante */
+const itemsToCollect = document.querySelectorAll(".items-grid li");
+/* Adiciona um EventList em todos os itens e passando a callback
+   de referencia
+ */
+for (const item of itemsToCollect) {
+  item.addEventListener("click", handleSelectedItem);
+}
+
+const collectedItems = document.querySelector("input[name=items]");
+let selectedItems = [];
+
+function handleSelectedItem(event) {
+  const itemLi = event.target;
+
+  // Add ou Remove class with javascript
+  itemLi.classList.toggle("selected");
+  const itemId = itemLi.dataset.id;
+
+  /* Verificar se existem itens selecionados e se 
+     existir pegar os itens */
+  const alreadySelected = selectedItems.findIndex((item) => {
+    return item == itemId;
+    /* True or False então retorna a posição do 
+        indice ou -1 quando não encontrar
+     */
+  });
+
+  /* Se ja existe selecionado, remover */
+  if (alreadySelected >= 0) {
+    /* Remover */
+    const filteredItems = selectedItems.filter((item) => {
+      const itemIsDifferent = item != itemId;
+      return itemIsDifferent;
+    });
+    selectedItems = filteredItems;
+  } else {
+    /* Se não estiver selecionado, adicinar a selecao */
+    selectedItems.push(itemId);
+  }
+  // console.log(selectedItems);
+
+  /* Atualizar o campo hidden com os itens */
+  collectedItems.value = selectedItems;
+}
