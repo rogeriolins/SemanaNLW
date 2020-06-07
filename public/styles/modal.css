@@ -87,3 +87,15 @@
   background-color: #2fb85ef5;
   transition: 400ms;
 }
+
+/* Para o modal point-created */
+#modal .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#modal h1 {
+  color: white;
+  margin-top: 45px;
+}
